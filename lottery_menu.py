@@ -3,13 +3,13 @@ import lottery_draw_machine
 
 #Main menu
 def menu():
-    menu = ["P", "T", "I", "L", "0"]
+    menu = ["P", "I", "L", "0"]
     while True:
         print(f"""{"-"*30}\033[1m
         MENU \033[0m
 
     \033[1m[P]\033[0m Play
-    \033[1m[T]\033[0m Tickets
+    \033[1m[T]\033[0m Tickets (NOT AVAILABLE FOR NOW)
     \033[1m[I]\033[0m Instruction
     \033[1m[L]\033[0m Log out
     
@@ -21,9 +21,7 @@ def menu():
         print("\n"*30)
         if menu_select in menu:
             if menu_select == "P":
-                break
-            if menu_select == "T":
-                user_tickets()
+                return lottery_draw_machine.main()
             if menu_select == "I":
                 instruction()
             if menu_select == "L":
@@ -73,10 +71,9 @@ def gamemode():
             else:
                 print("Choose from 1 to 5 only.")
         except ValueError:
+            print("-"*30)  
             print("Input a valid number.")
-
-def user_tickets():
-    print()
+            print("-"*30)
 
 # Game Instruction
 def instruction():
