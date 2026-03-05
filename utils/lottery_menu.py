@@ -3,7 +3,7 @@ import lottery_draw_machine
 
 #Main menu
 def menu():
-    menu = ["P", "I", "L", "0"]
+    menu_options = ["P", "I", "L", "0"]
     while True:
         print(f"""{"-"*30}\033[1m
         MENU \033[0m
@@ -19,7 +19,7 @@ def menu():
         menu_select = input("Select menu: ").upper()
         print("-"*30)
         print("\n"*30)
-        if menu_select in menu:
+        if menu_select in menu_options:
             if menu_select == "P":
                 return lottery_draw_machine.main()
             if menu_select == "I":

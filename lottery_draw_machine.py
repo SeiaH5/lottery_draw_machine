@@ -1,6 +1,5 @@
 import random
-import lottery_login
-import lottery_menu
+from utils import lottery_login, lottery_menu
 
 #Lottery drawing
 class lottery_drawing:
@@ -26,7 +25,7 @@ class lottery_drawing:
                     lottery_menu.menu()
                 elif int(bet) > max_ball_number or int(bet) < 1:
                     print(f"Your number must be from 1 to {max_ball_number}")
-                elif bet in user_bets:
+                elif int(bet) in user_bets:
                     print("You've already bet that number.")
                 else:
                     user_bets.append(int(bet))
