@@ -1,22 +1,24 @@
 import lottery_login
 import lottery_draw_machine
 
+#Main menu
 def menu():
     menu = ["P", "T", "I", "L", "0"]
     while True:
-        print("""--------------------
-        MENU
+        print(f"""{"-"*30}\033[1m
+        MENU \033[0m
 
-    [P] Play
-    [T] Tickets
-    [I] Instruction
-    [L] Log out
+    \033[1m[P]\033[0m Play
+    \033[1m[T]\033[0m Tickets
+    \033[1m[I]\033[0m Instruction
+    \033[1m[L]\033[0m Log out
     
-    [0] Exit
+    \033[1m[0]\033[0m Exit
         """)
-        menu_select = input("""--------------------
-Select menu: """).upper()
-        print("--------------------")
+        print("-"*30)
+        menu_select = input("Select menu: ").upper()
+        print("-"*30)
+        print("\n"*30)
         if menu_select in menu:
             if menu_select == "P":
                 break
@@ -25,12 +27,12 @@ Select menu: """).upper()
             if menu_select == "I":
                 instruction()
             if menu_select == "L":
-                print("\nLogging out...\n")
+                print("\n\033[1mLogging out...\033[0m\n")
                 lottery_login.front_panel()
             else:
                 exit()
         else:
-            print("Invalid menu option.")
+            print("\033[31mInvalid menu option.\033[0m")
 
 # Gamemode selector
 def gamemode():
@@ -55,7 +57,7 @@ def gamemode():
 [0] Back
             """)
             gamemode = int(input("Please select the number of gamemode (1-5): "))
-            print("--------------------")
+            print("-"*30)
             if gamemode == 0:
                 lottery_draw_machine.main()
             elif gamemode == 1:
@@ -76,8 +78,6 @@ def gamemode():
 def user_tickets():
     print()
 
-
-
 # Game Instruction
 def instruction():
     print("""
@@ -93,4 +93,4 @@ Instructions:
 
 (Winner prizes vary depending on gamemodes.)
 """)
-    return
+    return menu()
