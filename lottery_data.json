@@ -1,0 +1,28 @@
+{
+    "users": {
+        "josiah": "0105"
+    },
+    "tickets": [
+        {
+            "username": "josiah",
+            "gamemode": "6/42",
+            "numbers": [
+                15,
+                15,
+                21,
+                26,
+                39,
+                40
+            ],
+            "draw_numbers": [
+                6,
+                19,
+                28,
+                33,
+                38,
+                39
+            ],
+            "matches": 1
+        }
+    ]
+}
