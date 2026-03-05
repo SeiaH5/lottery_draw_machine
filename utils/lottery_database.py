@@ -1,48 +1,45 @@
-import sqlite3
+import json
+import os
 
-connection = sqlite3.connect("lottery_data.db")
-cursor = connection.cursor()
+database_file = "lottery_data.json"
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    password TEXT
-)
-""")
+def load_database():
+    if not os.path.exists(database_file):
+        data = {"users": {}, "tickets": []}
+        save_database(data)
+    with open(database_file, "r") as file:
+        return json.load(file)
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS tickets(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT,
-    gamemode INTEGER,
-    numbers TEXT,
-    draw_numbers TEXT,
-    matches INTEGER
-)
-""")
-
-connection.commit()
+def save_database(data):
+    with open(database_file, "w") as file:
+        json.dump(data, file, indent=4)
 
 def register_user(username, password):
-    try:
-        cursor.execute("INSERT INTO users(username,password) VALUES(?,?)",(username,password))
-        connection.commit()
-        return True
-    except:
+    data = load_database()
+    if username in data["users"]:
         return False
+    data["users"][username] = password
+    save_database(data)
+    return True
 
 def login_user(username, password):
-    cursor.execute("SELECT * FROM users WHERE username=? AND password=?",(username,password))
-    return cursor.fetchone()
+    data = load_database()
+    if username in data["users"] and data["users"][username] == password:
+        return True
+    return False
 
 def save_ticket(username, gamemode, numbers, draw_numbers, matches):
-    cursor.execute(
-        "INSERT INTO tickets(username,gamemode,numbers,draw_numbers,matches) VALUES(?,?,?,?,?)",
-        (username, gamemode, str(numbers), str(draw_numbers), matches)
-    )
-    connection.commit()
+    data = load_database()
+    ticket = {
+        "username": username,
+        "gamemode": "6/"+f"{gamemode}",
+        "numbers": numbers,
+        "draw_numbers": draw_numbers,
+        "matches": matches
+    }
+    data["tickets"].append(ticket)
+    save_database(data)
 
 def get_user_tickets(username):
-    cursor.execute("SELECT gamemode,numbers,draw_numbers,matches FROM tickets WHERE username=?",(username,))
-    return cursor.fetchall()
+    data = load_database()
+    return [ticket for ticket in data["tickets"] if ticket["username"] == username]
