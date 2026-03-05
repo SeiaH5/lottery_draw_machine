@@ -1,4 +1,4 @@
-import lottery_login
+from utils import lottery_login
 import lottery_draw_machine
 
 #Main menu

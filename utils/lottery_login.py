@@ -1,4 +1,4 @@
-import lottery_database
+from utils import lottery_database
 
 current_user=None
 

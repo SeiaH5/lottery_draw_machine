@@ -3,47 +3,46 @@ import sqlite3
 connection = sqlite3.connect("lottery_data.db")
 cursor = connection.cursor()
 
-def create_tables():
-    cursor.execute("""
-    create table if not exists users(
-        id integer primary key autoincrement,
-        username text unique,
-        password text
-    )
-    """)
-    cursor.execute("""
-    create table if not exists tickets(
-        id integer primary key autoincrement,
-        username text,
-        gamemode integer,
-        numbers text,
-        draw_numbers text,
-        matches integer
-    )
-    """)
-    connection.commit()
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE,
+    password TEXT
+)
+""")
 
-def register_user(username,password):
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS tickets(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT,
+    gamemode INTEGER,
+    numbers TEXT,
+    draw_numbers TEXT,
+    matches INTEGER
+)
+""")
+
+connection.commit()
+
+def register_user(username, password):
     try:
-        cursor.execute("insert into users(username,password) values(?,?)",(username,password))
+        cursor.execute("INSERT INTO users(username,password) VALUES(?,?)",(username,password))
         connection.commit()
         return True
     except:
         return False
 
-def login_user(username,password):
-    cursor.execute("select * from users where username=? and password=?",(username,password))
+def login_user(username, password):
+    cursor.execute("SELECT * FROM users WHERE username=? AND password=?",(username,password))
     return cursor.fetchone()
 
-def save_ticket(username,gamemode,numbers,draw_numbers,matches):
+def save_ticket(username, gamemode, numbers, draw_numbers, matches):
     cursor.execute(
-        "insert into tickets(username,gamemode,numbers,draw_numbers,matches) values(?,?,?,?,?)",
-        (username,gamemode,str(numbers),str(draw_numbers),matches)
+        "INSERT INTO tickets(username,gamemode,numbers,draw_numbers,matches) VALUES(?,?,?,?,?)",
+        (username, gamemode, str(numbers), str(draw_numbers), matches)
     )
     connection.commit()
 
 def get_user_tickets(username):
-    cursor.execute("select gamemode,numbers,draw_numbers,matches from tickets where username=?",(username,))
+    cursor.execute("SELECT gamemode,numbers,draw_numbers,matches FROM tickets WHERE username=?",(username,))
     return cursor.fetchall()
-
-create_tables()
